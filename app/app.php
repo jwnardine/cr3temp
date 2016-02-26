@@ -36,7 +36,7 @@
     });
 
     $app->post("/clients", function() use ($app) {
-        $client_name = $_POST['rest_name'];
+        $client_name = $_POST['client_name'];
         $stylist_id = $_POST['stylist_id'];
         $new_client = new Client($client_name, $id = null, $stylist_id);
         $new_client->save();
