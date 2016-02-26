@@ -1,0 +1,62 @@
+<html>
+<head>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css" type="text/css">
+    <title>Stylists and Clients</title>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ stylist.getName }}</h1>
+
+        <p><a href="/stylists/{{ stylist.getId }}/edit">Edit this stylist</a></p>
+
+        <p><a href='/'>Home</a></p>
+
+        {% if clients is not empty %}
+            <h3>Here are the clients:</h3>
+            <ul>
+                {% for client in clients %}
+                    <h4>{{ client.getClientName }}</h4>
+                        <form action="/client/{{ stylist.getId }}/{{ client.getId }}/edit_form">
+                            <button type="submit" name="button">Update this client</button>
+                        </form>
+                    <br>
+
+                {% endfor %}
+                {% if form %}
+                    <form action="/clients/updated" method="post">
+                        <input name="_method" type="hidden" value="patch">
+                        <input name="current_clientId" type="hidden" value="{{ current_client.getId }}">
+                        <input name="stylist_id" type="hidden" value="{{ stylist.getId }}">
+                        <input type="text" name="new_name" value="{{ client.getName }}">
+                        <button type="submit" name="button">Edit Name</button>
+                    </form>
+                {% endif %}
+            </ul>
+        {% else %}
+        <h5>There aren't any clients, you BOZO!</h5>
+        {% endif %}
+
+        <h4>Add a client</h4>
+
+        <form action='/clients' method='post'>
+            <input id="stylist_id" name="stylist_id" type="hidden" value="{{ stylist.getId }}">
+            <label for='client_name'>Client Name</label>
+            <input id='client_name' name='client_name' type='text'>
+            <label for='location'>Location:</label>
+
+            <button class="btn btn-warning" type='submit'>Add client</button>
+        </form>
+
+        <form action='/delete_clients' method='post'>
+            <input id="stylist_id" name="stylist_id" type="hidden" value="{{ stylist.getId }}">
+            <button class="btn btn-danger" type='submit'>Delete ALL the clients</button>
+        </form>
+
+
+
+        <p><a href='/'>Home</a></p>
+    </div>
+
+</body>
+</html>
